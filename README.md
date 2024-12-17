@@ -8,7 +8,7 @@ Auto_volatility is a project to set up Docker environments for **Volatility 2** 
 
 ## Docker Setup 🐳
 
-This project includes Docker setups for both **Volatility 2** and **Volatility 3**. The Dockerfiles used in this project are based on existing work:
+This project includes Docker setups for both **Volatility 2** and **Volatility 3**. The Dockerfiles used in this project are inspired by existing work:
 
 - **Volatility 2 Docker:** Built from the original [volatility2docker](https://github.com/p0dalirius/volatility2docker) repository by Podalirius.
 - **Volatility 3 Docker:** Based on the official [Volatility 3 Docker setup](https://github.com/sk4la/volatility3-docker) repository by sk4la.
