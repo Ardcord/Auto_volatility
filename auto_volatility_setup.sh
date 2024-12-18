@@ -30,7 +30,7 @@ create_dir_if_not_exists() {
     fi
 }
 
-copy_files():
+copy_files()
     cp ./vol_auto.py $DEFAULT_PATH/vol_auto.py
     cp ./volatility2_Docker/Dockerfile $DEFAULT_PATH/volatility_2/Dockerfile
     cp ./volatility3_Docker/Dockerfile $DEFAULT_PATH/volatility_3/Dockerfile
