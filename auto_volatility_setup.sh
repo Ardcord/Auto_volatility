@@ -30,57 +30,12 @@ create_dir_if_not_exists() {
     fi
 }
 
-# Function to download the files
-download_file() {
-    local repos=("https://github.com/sk4la/volatility3-docker.git ${DEFAULT_PATH}/temp_volatility_3" "https://github.com/p0dalirius/volatility2docker.git ${DEFAULT_PATH}/temp_volatility_2")
-    
-    for repo in "${repos[@]}"; do
-        repo_url=$(echo "$repo" | awk '{print $1}')
-        repo_dir=$(echo "$repo" | awk '{print $2}')
-        
-        if [ -d "$repo_dir" ]; then
-            print_message "Directory $repo_dir already exists. Skipping clone.   [ $CHECK_MARK ]" "32"
-        else
-            git clone "$repo_url" "$repo_dir"
-            if [[ $? -ne 0 ]]; then
-                print_message "Failed to clone repository $repo_url.   [ $CROSS_MARK ]" "31"
-                exit 1
-            else
-                print_message "Repository $repo_url cloned successfully.   [ $CHECK_MARK ]" "32"
-            fi
-        fi
-    done
-}
-
-# Patch the files and organize them
-patch_file() {
-    create_dir_if_not_exists "${DEFAULT_PATH}/volatility_3"
-    create_dir_if_not_exists "${DEFAULT_PATH}/volatility_2"
-
-    local temp_volatility_3="${DEFAULT_PATH}/temp_volatility_3"
-    if [ ! -d "$temp_volatility_3" ]; then
-        print_message "Directory temp_volatility_3 not found. Aborting." "31"
-        exit 1
-    fi
-
-    cp "${temp_volatility_3}/src/volatility3/Dockerfile" "${DEFAULT_PATH}/volatility_3/"
-    cp "${temp_volatility_3}/LICENSE" "${DEFAULT_PATH}/volatility_3/"
-    cp "${temp_volatility_3}/README.md" "${DEFAULT_PATH}/volatility_3/README_sk4la.md"
-    cp -r "${temp_volatility_3}/src/volatility3/assets" "${DEFAULT_PATH}/volatility_3/assets"
-
-    local temp_volatility_2="${DEFAULT_PATH}/temp_volatility_2"
-    if [ ! -d "$temp_volatility_2" ]; then
-        print_message "Directory temp_volatility_2 not found. Aborting." "31"
-        exit 1
-    fi
-
-    cp "${temp_volatility_2}/Dockerfile" "${DEFAULT_PATH}/volatility_2/"
-    cp "${temp_volatility_2}/README.md" "${DEFAULT_PATH}/volatility_2/README_p0dalirius.md"
-
-    sed -i 's|CMD /bin/bash|ENTRYPOINT ["python2", "/volatility/vol.py"]|' "${DEFAULT_PATH}/volatility_2/Dockerfile"
-
-    rm -rf "$temp_volatility_3" "$temp_volatility_2"
-}
+copy_files():
+    cp ./vol_auto.py $DEFAULT_PATH/vol_auto.py
+    cp ./volatility2_Docker/Dockerfile $DEFAULT_PATH/volatility_2/Dockerfile
+    cp ./volatility3_Docker/Dockerfile $DEFAULT_PATH/volatility_3/Dockerfile
+    echo "$DEFAULT_PATH/vol_auto.py" >> ~/.bashrc
+    source ~/.bashrc
 
 # Build the Docker images
 install_docker_images() {
@@ -104,8 +59,7 @@ install_docker_images() {
 clear
 print_message "Install in $DEFAULT_PATH" "31"
 create_dir_if_not_exists "$DEFAULT_PATH"
-download_file
-patch_file
+
 install_docker_images
 
 cp ./vol_auto.py $DEFAULT_PATH/vol_auto.py
