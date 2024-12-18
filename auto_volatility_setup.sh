@@ -84,7 +84,7 @@ patch_file() {
 
 # Build the Docker images
 install_docker_images() {
-    local docker_repos=("volatility_3" "volatility_2")
+    local docker_repos=("volatility_2" "volatility_3")
     
     for repo in "${docker_repos[@]}"; do
         cd "${DEFAULT_PATH}/${repo}" || exit 1
