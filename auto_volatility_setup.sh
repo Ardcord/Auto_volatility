@@ -65,5 +65,14 @@ install_docker_images
 
 cp ./vol_auto.py $DEFAULT_PATH/vol_auto.py
 
-echo "$DEFAULT_PATH/vol_auto.py" >> ~/.bashrc
-source ~/.bashrc
+
+config_files=("~/.bashrc" "~/.zshrc") # Add other rc files if needed
+for config_file in "${config_files[@]}"; do
+    if [ -f $config_file ]; then
+        echo "$DEFAULT_PATH/vol_auto.py" >> $config_file
+        print_message "Added the path to vol_auto.py in $config_file" "32"
+    else
+        # Si le fichier n'existe pas, afficher un message
+        print_message "$config_file does not exist" "31"
+    fi
+done
