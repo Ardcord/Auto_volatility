@@ -30,7 +30,7 @@ create_dir_if_not_exists() {
     fi
 }
 
-def copy_files():
+copy_files()
     cp ./vol_auto.py $DEFAULT_PATH/vol_auto.py
     cp ./volatility2_Docker/Dockerfile $DEFAULT_PATH/volatility_2/Dockerfile
     cp ./volatility3_Docker/Dockerfile $DEFAULT_PATH/volatility_3/Dockerfile
@@ -39,7 +39,7 @@ def copy_files():
 
 # Build the Docker images
 install_docker_images() {
-    local docker_repos=("volatility_3" "volatility_2")
+    local docker_repos=("volatility_2" "volatility_3")
     
     for repo in "${docker_repos[@]}"; do
         cd "${DEFAULT_PATH}/${repo}" || exit 1
