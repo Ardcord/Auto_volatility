@@ -24,3 +24,7 @@ VOLUME /workspace/
 WORKDIR /workspace/
 
 ENTRYPOINT ["python2", "/volatility/vol.py"]
+
+
+# Test the construction of the image
+# docker run -it --rm -v <path to file dir>:/mnt volatility_2-docker -f /mnt/<file name> imageinfo

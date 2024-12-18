@@ -33,10 +33,11 @@ RUN . /venv/bin/activate && pip install --upgrade pip setuptools wheel \
 # Cloner les autres dépendances
 RUN git clone --branch=main   --depth=1   --single-branch ${TAB_REPO}/Windows-Symbol-Tables.git ~/temporaire/symbols
 RUN git clone --branch=master --recursive --single-branch ${YARA_REPO}/yara-python /yara-python
-RUN git clone --branch=master --depth=1 --single-branch ${VOL_REPO}/community3.git ~/temporaire/community3
+# RUN cd ${PLUGINS_DIR}/ && git clone --branch=master --depth=1 --single-branch ${VOL_REPO}/community3.git
 
 RUN cp -r ~/temporaire/symbols/symbols/windows ${SYM_DIR}/windows && rm -rf ~/temporaire/symbols
-RUN cp -r ~/temporaire/community3/* ${PLUGINS_DIR} && rm -rf ~/temporaire/community3
+
+# RUN cp -r ~/temporaire/community3/* ${PLUGINS_DIR} && rm -rf ~/temporaire/community3
 
 # Télécharger les symboles
 RUN curl --location --max-redirs 1 \
@@ -61,6 +62,12 @@ RUN chmod 0755 /usr/local/lib/volatility3/vol.py /usr/local/lib/volatility3/vola
     ln -sf ${SYM_DIR}framework/symbols/windows/pdbconv.py /usr/local/bin/pdbconv
 
 RUN rm -rf ~/temporaire
+
+RUN echo "=== ls /home/ ===" && ls -la /home/
+
+RUN volatility3 -vvv frameworkinfo.FrameworkInfo && \
+    mkdir -p /home/.cache/volatility3 && \
+    cp ~/.cache/volatility3/identifier.cache /home/.cache/volatility3/
 
 # Point d'entrée pour exécuter Volatility 3
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "volatility3"]
