@@ -24,7 +24,7 @@ create_dir_if_not_exists() {
     local dir_path=$1
     if [ ! -d "$dir_path" ]; then
         print_message "Creating directory $dir_path" "34"
-        mkdir -p "$dir_path"
+        mkdir -p "$dir_path" "$dir_path/volatility_2" "$dir_path/volatility_3"
     else
         print_message "Directory $dir_path already exists" "32"
     fi
@@ -60,7 +60,7 @@ install_docker_images() {
 clear
 print_message "Install in $DEFAULT_PATH" "31"
 create_dir_if_not_exists "$DEFAULT_PATH"
-
+copy_files
 install_docker_images
 
 cp ./vol_auto.py $DEFAULT_PATH/vol_auto.py
