@@ -1,7 +1,7 @@
 
-- [ ] 1 -  Help menu
+- [x] 1 -  Help menu ✅ 2024-12-19
 
-- [ ] 2 - Banner
+- [x] 2 - Banner ✅ 2024-12-19
 
 - [ ] 3 - Docker optimisations
 	- [ ] 3.1 - fix issue with plugin community3
